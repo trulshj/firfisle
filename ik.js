@@ -64,6 +64,17 @@ function armLoop() {
 
 const arm = new Arm(250, 150, new Vector(100, 100), new Vector(300, 300));
 
+const upperArmSlider = document.getElementById("upper-arm-slider");
+const lowerArmSlider = document.getElementById("lower-arm-slider");
+
+upperArmSlider.addEventListener("input", (e) => {
+    arm.upperArmLength = parseInt(e.target.value);
+});
+
+lowerArmSlider.addEventListener("input", (e) => {
+    arm.lowerArmLength = parseInt(e.target.value);
+});
+
 function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -92,37 +103,46 @@ function updateHand() {}
 armLoop();
 
 /**
+ *  Finds the intersection points between two circles
  *
- * @param {Vector} p1
- * @param {Number} r1
- * @param {Vector} p2
- * @param {Number} r2
- * @returns
+ *  Adapted from https://math.stackexchange.com/a/1367732
+ *
+ * @param {Vector} position1 The centre of the first circle
+ * @param {Number} radius1 The radius of the first circle
+ * @param {Vector} position2 The centre of the second circle
+ * @param {Number} radius2 The radius of the second circle
+ * @returns {[Vector, Vector]} The intersection points between the two circles
  */
-function circleIntersectionCoordinates(p1, r1, p2, r2) {
-    let R = p1.distance(p2);
-    let R2 = R * R;
-    let R4 = R2 * R2;
+function circleIntersectionCoordinates(position1, radius1, position2, radius2) {
+    const distance = position1.distance(position2);
+    const distance2 = distance * distance;
+    const distance4 = distance2 * distance2;
 
-    let mx = (p1.x + p2.x) / 2;
-    let my = (p1.y + p2.y) / 2;
+    const xMean = (position1.x + position2.x) / 2;
+    const yMean = (position1.y + position2.y) / 2;
 
-    let r12 = r1 * r1;
-    let r22 = r2 * r2;
-    var r2r2 = r1 * r1 - r2 * r2;
+    const radius1_2 = radius1 * radius1;
+    const radius2_2 = radius2 * radius2;
 
-    let a = (r12 - r22) / (2 * R2);
-    let c = Math.sqrt((2 * (r12 + r22)) / R2 - (r2r2 * r2r2) / R4 - 1);
+    const a = (radius1_2 - radius2_2) / (2 * distance2);
+    const b = Math.sqrt(
+        (2 * (radius1_2 + radius2_2)) / distance2 -
+            (radius1_2 - radius2_2) ** 2 / distance4 -
+            1
+    );
 
-    var fx = mx + a * (p2.x - p1.x);
-    var gx = (c * (p2.y - p1.y)) / 2;
-    var ix1 = fx + gx;
-    var ix2 = fx - gx;
+    const aX = xMean + a * position2.distanceX(position1);
+    const bX = (b * position2.distanceY(position1)) / 2;
+    const intersection1_x = aX + bX;
+    const intersection2_x = aX - bX;
 
-    var fy = my + a * (p2.y - p1.y);
-    var gy = (c * (p1.x - p2.x)) / 2;
-    var iy1 = fy + gy;
-    var iy2 = fy - gy;
+    const aY = yMean + a * position2.distanceY(position1);
+    const bY = (b * position1.distanceX(position2)) / 2;
+    const intersection1_y = aY + bY;
+    const intersection2_y = aY - bY;
 
-    return [new Vector(ix1, iy1), new Vector(ix2, iy2)];
+    return [
+        new Vector(intersection1_x, intersection1_y),
+        new Vector(intersection2_x, intersection2_y),
+    ];
 }

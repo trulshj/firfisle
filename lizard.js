@@ -27,9 +27,8 @@ export class Lizard {
      * @param {Vector} target
      */
     seek(target) {
-        let desired = target.clone().subtract(this.position);
-
-        let distance = desired.length();
+        const desired = target.clone().subtract(this.position);
+        const distance = desired.length();
 
         desired.normalize();
         desired.multiplyScalar(this.TOP_SPEED);

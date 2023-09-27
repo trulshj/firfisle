@@ -1,6 +1,5 @@
 import { Vector } from "./vector.js";
 import { width, height } from "./script.js";
-import { ctx } from "./script.js";
 
 export class Lizard {
     constructor(x, y, color = "black", vx = 0, vy = 0, drawVectors = false) {
@@ -44,8 +43,6 @@ export class Lizard {
             desired.multiplyScalar(this.TOP_SPEED);
         }
 
-        if (this.drawVectors) desired.draw(this.position, "green", 1500);
-
         this.acceleration = desired;
     }
 
@@ -61,16 +58,5 @@ export class Lizard {
         this.acceleration.zero();
 
         this.checkCollision();
-    }
-
-    draw() {
-        ctx.beginPath();
-        ctx.fillStyle = this.color;
-        ctx.arc(this.position.x, this.position.y, 10, 0, 2 * Math.PI);
-        ctx.fill();
-
-        if (this.drawVectors) {
-            this.velocity.draw(this.position, "red", 30);
-        }
     }
 }

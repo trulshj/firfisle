@@ -1,6 +1,7 @@
 import { Vector } from "./vector.js";
-import { Point } from "./point.js";
+import { Food } from "./food.js";
 import { Lizard } from "./lizard.js";
+import { Artist } from "./artist.js";
 
 function loop() {
     ctx.fillStyle = "rgba(255,255,255)";
@@ -8,12 +9,30 @@ function loop() {
 
     for (let pObject of physicsObjects) {
         pObject.update();
-        pObject.draw();
+        artist.drawArrowHead(
+            pObject.position,
+            pObject.velocity.invert().horizontalAngle(),
+            pObject.color
+        );
+
+        if (pObject.drawVectors) {
+            artist.drawVector(
+                pObject.velocity.invert(),
+                pObject.position,
+                "black",
+                10
+            );
+            artist.drawVector(
+                pObject.oldAcceleration,
+                pObject.position,
+                "red",
+                100
+            );
+        }
     }
 
-    for (let sObject of staticObjects) {
-        sObject.draw();
-    }
+    // food
+    artist.drawPoint(food.position, food.color);
 
     // have each tail segment seek the one in front of it
     let prev = bob;
@@ -29,9 +48,13 @@ function loop() {
 
 export const canvas = document.getElementById("canvas");
 export const ctx = canvas.getContext("2d");
+export const width = canvas.width;
+export const height = canvas.height;
+
+const artist = new Artist(ctx, width, height);
 
 function showObjectVectors(bool) {
-    for (let object of objects) {
+    for (let object of physicsObjects) {
         object.drawVectors = bool;
     }
 }
@@ -56,19 +79,17 @@ function getCursorPosition(canvas, event) {
     return { x, y };
 }
 
-let foodFollowsMouse = false;
-
 canvas.addEventListener("click", function (event) {
-    foodFollowsMouse = !foodFollowsMouse;
+    food.followsMouse = !food.followsMouse;
+    if (food.followsMouse) {
+        food.position.copy(Vector.fromObject(getCursorPosition(canvas, event)));
+    }
 });
 
 canvas.addEventListener("mousemove", function (event) {
-    if (foodFollowsMouse)
-        food.position = Vector.fromObject(getCursorPosition(canvas, event));
+    if (food.followsMouse)
+        food.position.copy(Vector.fromObject(getCursorPosition(canvas, event)));
 });
-
-export const width = canvas.width;
-export const height = canvas.height;
 
 const tailLength = 10;
 const bob = new Lizard(10 + 20 * tailLength, 10 + 20 * tailLength, "red");
@@ -81,9 +102,7 @@ for (let i = 0; i < tailLength; i++) {
 
 tail.reverse();
 
-const food = new Point(width / 2, height / 2, "green");
-
+const food = new Food(width / 2, height / 2);
 const physicsObjects = [bob, ...tail];
-const staticObjects = [food];
 
 loop();

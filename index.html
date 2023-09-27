@@ -28,6 +28,28 @@
         </section>
         <canvas id="canvas" width="800" height="600"></canvas>
 
+        <h2>Elbow Inverse Kinematics</h2>
+        <div>
+            <label for="upperarm-slider">Upper arm length</label>
+            <input
+                type="range"
+                name="upperarm-slider"
+                id="upperarm-slider"
+                min="50"
+                max="300"
+            />
+            <label for="forearm-slider">Forearm length</label>
+            <input
+                type="range"
+                name="forearm-slider"
+                id="forearm-slider"
+                min="50"
+                max="300"
+            />
+        </div>
+        <canvas id="elbow-canvas" width="800" height="600"></canvas>
+
         <script type="module" src="script.js"></script>
+        <script type="module" src="ik.js"></script>
     </body>
 </html>

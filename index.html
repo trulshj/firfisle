@@ -4,10 +4,30 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
         <h1>Heisann, firfisle!</h1>
-        <canvas id="canvas" width="200" height="100"></canvas>
+        <section class="controls">
+            <div>
+                <label for="show-arrows"
+                    >Show velocity and acceleration vectors</label
+                >
+                <input type="checkbox" name="show-arrows" id="show-arrows" />
+            </div>
+            <span
+                >Click to have the food follow your mouse, click again to
+                drop</span
+            >
+        </section>
+        <canvas id="canvas" width="800" height="600"></canvas>
+
         <script type="module" src="script.js"></script>
     </body>
 </html>

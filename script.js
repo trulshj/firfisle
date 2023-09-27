@@ -53,8 +53,7 @@ function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    console.log(x, y);
-    return new Vector(x, y);
+    return { x, y };
 }
 
 let foodFollowsMouse = false;
@@ -64,13 +63,12 @@ canvas.addEventListener("click", function (event) {
 });
 
 canvas.addEventListener("mousemove", function (event) {
-    if (foodFollowsMouse) food.position = getCursorPosition(canvas, event);
+    if (foodFollowsMouse)
+        food.position = Vector.fromObject(getCursorPosition(canvas, event));
 });
 
 export const width = canvas.width;
 export const height = canvas.height;
-
-console.log(width, height);
 
 const tailLength = 10;
 const bob = new Lizard(10 + 20 * tailLength, 10 + 20 * tailLength, "red");

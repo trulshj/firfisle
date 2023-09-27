@@ -23,19 +23,26 @@ export class Lizard {
         }
     }
 
+    /**
+     *
+     * @param {Vector} target
+     */
     seek(target) {
-        let desired = target.clone().sub(this.position);
+        let desired = target.clone().subtract(this.position);
 
-        let distance = desired.magnitude();
+        let distance = desired.length();
 
         desired.normalize();
-        desired.scale(this.TOP_SPEED);
+        desired.multiplyScalar(this.TOP_SPEED);
         if (distance < this.STOPPING_DISTANCE) {
-            desired.scale((distance - 20) / this.STOPPING_DISTANCE);
+            desired.multiplyScalar((distance - 20) / this.STOPPING_DISTANCE);
         }
 
-        desired.sub(this.velocity);
-        desired.limitForce();
+        desired.subtract(this.velocity);
+        if (desired.length() > this.TOP_SPEED) {
+            desired.normalize();
+            desired.multiplyScalar(this.TOP_SPEED);
+        }
 
         if (this.drawVectors) desired.draw(this.position, "green", 1500);
 
@@ -46,7 +53,7 @@ export class Lizard {
         this.velocity.add(this.acceleration);
 
         const friction = 0.01;
-        this.velocity.scale(1 - friction);
+        this.velocity.multiplyScalar(1 - friction);
 
         this.position.add(this.velocity);
 

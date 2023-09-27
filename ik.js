@@ -70,7 +70,7 @@ const height = canvas.height;
 const artist = new Artist(ctx, width, height);
 
 function armLoop() {
-    ctx.fillStyle = "rgba(255,255,255)";
+    ctx.fillStyle = "#b4f8edff";
     ctx.fillRect(0, 0, width, height);
 
     artist.drawPoint(arm.shoulder, "black");
@@ -98,10 +98,12 @@ const lowerArmSlider = document.getElementById("lower-arm-slider");
 
 upperArmSlider.addEventListener("input", (e) => {
     arm.upperArmLength = parseInt(e.target.value);
+    arm.moveHandTo(arm.hand);
 });
 
 lowerArmSlider.addEventListener("input", (e) => {
     arm.lowerArmLength = parseInt(e.target.value);
+    arm.moveHandTo(arm.hand);
 });
 
 function getCursorPosition(canvas, event) {

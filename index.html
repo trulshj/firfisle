@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+        <title>Hvordan lage en firfisle</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -11,50 +11,68 @@
             rel="stylesheet"
         />
         <link rel="stylesheet" href="styles.css" />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐸</text></svg>"
+        />
     </head>
     <body>
-        <h1>Heisann, firfisle!</h1>
-        <section class="controls">
-            <div>
-                <label for="show-arrows"
-                    >Show velocity and acceleration vectors</label
-                >
-                <input type="checkbox" name="show-arrows" id="show-arrows" />
-            </div>
-            <span
-                >Click to have the food follow your mouse, click again to
-                drop</span
-            >
-        </section>
-        <canvas id="canvas" width="800" height="600"></canvas>
+        <main>
+            <h1>Hvordan lage en firfisle:</h1>
+            <section>
+                <h2>Ikke mist huet!</h2>
+                <div class="controls">
+                    <div>
+                        <label for="show-arrows"
+                            >Vis vektorer for fart og akselerasjon</label
+                        >
+                        <input
+                            type="checkbox"
+                            name="show-arrows"
+                            id="show-arrows"
+                        />
+                    </div>
+                    <span>Klikk og dra for å flytte på maten</span>
+                </div>
+                <canvas id="canvas" width="600" height="400"></canvas>
+            </section>
 
-        <h2>Elbow Inverse Kinematics</h2>
-        <div>
-            <label for="upper-arm-slider">Upper arm length</label>
-            <input
-                type="range"
-                name="upper-arm-slider"
-                id="upper-arm-slider"
-                min="50"
-                max="300"
-            />
-            <label for="lower-arm-slider">Lower arm length</label>
-            <input
-                type="range"
-                name="lower-arm-slider"
-                id="lower-arm-slider"
-                min="50"
-                max="300"
-            />
-            <label for="draw-arm-lengths">Draw arm lengths</label>
-            <input
-                type="checkbox"
-                name="draw-arm-lengths"
-                id="draw-arm-lengths"
-                checked
-            />
-        </div>
-        <canvas id="elbow-canvas" width="800" height="600"></canvas>
+            <section>
+                <h2>Knær er viktige de også</h2>
+                <div class="controls">
+                    <div>
+                        <label for="upper-arm-slider">Lengde på lår</label>
+                        <input
+                            type="range"
+                            name="upper-arm-slider"
+                            id="upper-arm-slider"
+                            min="50"
+                            max="300"
+                        />
+                    </div>
+                    <div>
+                        <label for="lower-arm-slider">Lengde på legg</label>
+                        <input
+                            type="range"
+                            name="lower-arm-slider"
+                            id="lower-arm-slider"
+                            min="50"
+                            max="300"
+                        />
+                    </div>
+                    <div>
+                        <label for="draw-arm-lengths">Vis radius for ben</label>
+                        <input
+                            type="checkbox"
+                            name="draw-arm-lengths"
+                            id="draw-arm-lengths"
+                            checked
+                        />
+                    </div>
+                </div>
+                <canvas id="elbow-canvas" width="600" height="400"></canvas>
+            </section>
+        </main>
 
         <script type="module" src="script.js"></script>
         <script type="module" src="ik.js"></script>

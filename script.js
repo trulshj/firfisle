@@ -4,42 +4,19 @@ import { Lizard } from "./lizard.js";
 import { Artist } from "./artist.js";
 
 function loop() {
-    ctx.fillStyle = "rgba(255,255,255)";
+    ctx.fillStyle = "#b4f8edff";
     ctx.fillRect(0, 0, width, height);
 
-    for (let pObject of physicsObjects) {
-        pObject.update();
-        artist.drawArrowHead(
-            pObject.position,
-            pObject.velocity.invert().horizontalAngle(),
-            pObject.color
-        );
+    bob.update();
+    artist.drawPoint(bob.position, bob.color);
 
-        if (pObject.drawVectors) {
-            artist.drawVector(
-                pObject.velocity.invert(),
-                pObject.position,
-                "black",
-                10
-            );
-            artist.drawVector(
-                pObject.oldAcceleration,
-                pObject.position,
-                "red",
-                100
-            );
-        }
+    if (showObjectVectors) {
+        artist.drawVector(bob.velocity.invert(), bob.position, "black", 10);
+        artist.drawVector(bob.oldAcceleration, bob.position, "red", 10);
     }
 
     // food
     artist.drawPoint(food.position, food.color);
-
-    // have each tail segment seek the one in front of it
-    let prev = bob;
-    for (let i = 0; i < tail.length; i++) {
-        tail[i].seek(prev.position);
-        prev = tail[i];
-    }
 
     bob.seek(food.position);
 
@@ -53,23 +30,10 @@ export const height = canvas.height;
 
 const artist = new Artist(ctx, width, height);
 
-function showObjectVectors(bool) {
-    for (let object of physicsObjects) {
-        object.drawVectors = bool;
-    }
-}
-
-// toggle show vectors if v is pressed
-document.addEventListener("keydown", function (event) {
-    if (event.key == "v") {
-        showArrows.checked = !showArrows.checked;
-        showObjectVectors(showArrows.checked);
-    }
-});
-
 const showArrows = document.getElementById("show-arrows");
+let showObjectVectors = false;
 showArrows.addEventListener("change", function () {
-    showObjectVectors(showArrows.checked);
+    showObjectVectors = showArrows.checked;
 });
 
 function getCursorPosition(canvas, event) {
@@ -79,30 +43,20 @@ function getCursorPosition(canvas, event) {
     return { x, y };
 }
 
-canvas.addEventListener("click", function (event) {
-    food.followsMouse = !food.followsMouse;
-    if (food.followsMouse) {
-        food.position.copy(Vector.fromObject(getCursorPosition(canvas, event)));
-    }
+canvas.addEventListener("mousedown", () => {
+    food.followsMouse = true;
 });
 
-canvas.addEventListener("mousemove", function (event) {
+canvas.addEventListener("mouseup", () => {
+    food.followsMouse = false;
+});
+
+canvas.addEventListener("mousemove", (event) => {
     if (food.followsMouse)
         food.position.copy(Vector.fromObject(getCursorPosition(canvas, event)));
 });
 
-const tailLength = 10;
-const bob = new Lizard(10 + 20 * tailLength, 10 + 20 * tailLength, "red");
-
-let tail = [];
-
-for (let i = 0; i < tailLength; i++) {
-    tail.push(new Lizard(10 + i * 20, 10 + i * 20, "blue"));
-}
-
-tail.reverse();
-
+const bob = new Lizard(10, 10, "coral");
 const food = new Food(width / 2, height / 2);
-const physicsObjects = [bob, ...tail];
 
 loop();

@@ -4,16 +4,54 @@ html {
     text-align: center;
 }
 
+:root {
+    --celeste: #b4f8edff;
+    --misty-rose: #fedfdcff;
+    --wisteria: #c1a7eeff;
+    --amethyst: #9a60c6ff;
+    --grape: #7c38ac;
+    --vanilla: #fff7a6ff;
+    --tea-rose-red: #ffcccbff;
+    --fairy-tale: #fec8dbff;
+    --tea-green: #d1f7d5ff;
+}
+
 body {
     padding-top: 1rem;
+    background-color: var(--misty-rose);
+    background-size: 32px 32px;
+    background-image: linear-gradient(
+            to right,
+            var(--amethyst) 1px,
+            transparent 1px
+        ),
+        linear-gradient(to bottom, var(--amethyst) 1px, transparent 1px);
+    color: var(--grape);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 4rem;
+    min-width: 600px;
 }
 
 section {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
     padding: 1rem;
+
+    background-color: var(--tea-rose-red);
+    border-radius: 24px;
 }
 
 canvas {
-    border: 2px solid black;
+    border: 2px solid var(--grape);
+    border-radius: 24px;
 }
 
 h1,
@@ -23,4 +61,30 @@ h4,
 h5,
 h6 {
     margin: 0;
+}
+
+h1 {
+    padding: 1rem;
+    border-radius: 24px;
+
+    background: var(--vanilla);
+    background: linear-gradient(
+        150deg,
+        var(--vanilla) 0%,
+        var(--tea-rose-red) 100%
+    );
+}
+
+section,
+h1 {
+    -webkit-box-shadow: 20px 22px 31px -7px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 20px 22px 31px -7px rgba(0, 0, 0, 0.75);
+    box-shadow: 20px 22px 31px -7px rgba(0, 0, 0, 0.75);
+}
+
+.controls {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }

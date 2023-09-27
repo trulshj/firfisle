@@ -13,7 +13,7 @@ export class Artist {
     }
 
     drawPoints(points, color = "red") {
-        for (let point of points) {
+        for (const point of points) {
             this.drawPoint(point, color);
         }
     }
@@ -49,20 +49,5 @@ export class Artist {
         this.context.moveTo(start.x, start.y);
         this.context.lineTo(end.x, end.y);
         this.context.stroke();
-    }
-
-    drawArrowHead(point, angle, color = "black") {
-        this.context.beginPath();
-        this.context.fillStyle = color;
-        this.context.moveTo(point.x, point.y);
-        this.context.lineTo(
-            point.x + 20 * Math.cos(angle - Math.PI / 6),
-            point.y + 20 * Math.sin(angle - Math.PI / 6)
-        );
-        this.context.lineTo(
-            point.x + 20 * Math.cos(angle + Math.PI / 6),
-            point.y + 20 * Math.sin(angle + Math.PI / 6)
-        );
-        this.context.fill();
     }
 }
